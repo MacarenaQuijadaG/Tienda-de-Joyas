@@ -48,7 +48,22 @@ app.get("/joyas", (req, res) => {
 
 
 // Ruta GET /joyas/categoria/:categoria que devuelve solo las joyas correspondientes a la categoría obtenida
+// http://localhost:3000/joyas/categoria/aros
+app.get('/joyas/categoria/:categoria', (req, res) => {
+  const { categoria } = req.params;
+  const joyasCategoria = joyas.results.filter(joya => joya.category === categoria);
 
+  if (joyasCategoria.length > 0) {
+    res.send({
+      cantidad: joyasCategoria.length,
+      joyas: joyasCategoria
+    });
+  } else {
+    res.status(404).send({
+      mensaje: "Error 404. Categoría no encontrada"
+    });
+  }
+});
 
 // Ruta GET /joyas que permite el filtrado por campos de las joyas
 // Ruta GET para el ordenamiento de las joyas según su valor de forma ascendente o descendente usando Query Strings
